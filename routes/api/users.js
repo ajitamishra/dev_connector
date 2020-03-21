@@ -2,6 +2,8 @@ const express = require("express");
 const gravatar = require("gravatar");
 const { check, validationResult } = require("express-validator");
 const User = require("../../models/User");
+const jwt = require("jsonwebtoken");
+const config = require("config");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 // @route POST/users
@@ -55,7 +57,22 @@ router.post(
       const salt = await bcrypt.genSalt(10); //  with salt we can generate hash bcrypt.gensalt(rounds)--> more no. of rounds ,more secured hash
       user.password = await bcrypt.hash(password, salt); //bcrypt.hash()takes 2 parameters one plain text password and other salt which is to be used to hash password
       await user.save(); // saved to database
-      res.send("User registered successfully.");
+
+      // jwt token
+
+      const payload = {
+        user: { id: user.id }
+      };
+
+      jwt.sign(
+        payload,
+        config.get("jwtSecret"),
+        { expiresIn: 36000 },
+        async (err, token) => {
+          if (err) throw err;
+          await res.json({ token });
+        }
+      );
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Server error");
