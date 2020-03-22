@@ -7,7 +7,7 @@ const config = require("config");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 // @route POST/users
-// @desc   Test Route
+// @desc   Register user
 // @access public
 router.post(
   "/",
