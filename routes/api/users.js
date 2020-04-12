@@ -12,15 +12,13 @@ const bcrypt = require("bcryptjs");
 router.post(
   "/",
   [
-    check("name", "Please enter name")
-      .not()
-      .isEmpty(),
+    check("name", "Please enter name").not().isEmpty(),
 
     check("email", "Please enter valid email").isEmail(),
     check(
       "password",
       "Please enter valid password,it should have minimum of 6 characters."
-    ).isLength({ min: 6 })
+    ).isLength({ min: 6 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -42,26 +40,26 @@ router.post(
       const avatar = gravatar.url(email, {
         s: "200", //s=size of string  res.send("Users route");
         r: "pg",
-        d: "mm" // to get default icon
+        d: "mm", // to get default icon
       });
 
       user = new User({
         name,
         email,
         avatar,
-        password
+        password,
       });
 
       // encypt the password
 
-      const salt = await bcrypt.genSalt(10); //  with salt we can generate hash bcrypt.gensalt(rounds)--> more no. of rounds ,more secured hash
+      const salt = await bcrypt.genSalt(10); //  with salt we can generate hash ...bcrypt.gensalt(rounds)--> more no. of rounds ,more secured hash
       user.password = await bcrypt.hash(password, salt); //bcrypt.hash()takes 2 parameters one plain text password and other salt which is to be used to hash password
       await user.save(); // saved to database
 
       // jwt token
 
       const payload = {
-        user: { id: user.id }
+        user: { id: user.id },
       };
 
       jwt.sign(
