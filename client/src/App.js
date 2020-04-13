@@ -4,6 +4,9 @@ import Navbar from "./Components/Layouts/Navbar";
 import Landing from "./Components/Layouts/Landing";
 import Login from "./Components/auth/Login";
 import Register from "./Components/auth/Register";
+import Dashboard from "./Components/dashboard/Dashboard";
+import PrivateRoute from "./Components/routing/PrivateRoute";
+
 import "./App.css";
 import Alert from "./Components/Layouts/Alert";
 import { loadUser } from "./actions/auth";
@@ -28,8 +31,11 @@ const App = () => {
           <section className="container">
             <Alert />
             <Switch>
+              import Register from "./Components/auth/Register"; import Register
+              from "./Components/auth/Register";
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
             </Switch>
           </section>
         </Fragment>
