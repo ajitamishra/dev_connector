@@ -6,6 +6,7 @@ import {
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
+  CLEAR_PROFILE,
 } from "../actions/types";
 
 const initialState = {
@@ -32,7 +33,8 @@ export default function (state = initialState, action) {
         ...state,
         ...payload,
         isAuthenticated: true,
-        loading: false, //.............(...state)----spread operator to copy current value of state including previous values
+        loading: false,
+        //.............(...state)----spread operator to copy current value of state including previous values
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
